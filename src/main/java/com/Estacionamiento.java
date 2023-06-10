@@ -35,5 +35,11 @@ public class Estacionamiento {
         this.parkedCars = parkedCars;
     }
 
-    System.out.println("Probando si ahora funciona - rev1");
+    @Override
+    public String toString() {
+        return "Estacionamiento [maximumCapacity=" + maximumCapacity + ", parkedCars=" + parkedCars + ", cars=" + cars
+                + "]";
+    }
+
+
 }
