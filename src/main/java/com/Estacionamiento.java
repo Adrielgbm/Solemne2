@@ -5,7 +5,6 @@ import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import javax.swing.JOptionPane;
 
 public class Estacionamiento {
     private int maximumCapacity;
@@ -58,7 +57,12 @@ public class Estacionamiento {
         boolean patenteisValid=false;
         boolean flagC=false;
         boolean marcaisValid=false;
-        
+
+        /*
+         * Patente
+         * Debe tener formato "AAAA00"
+         */
+        System.out.println("Formato incorrecto");
         if(this.parkedCars<this.maximumCapacity){
             Scanner scanner = new Scanner(System.in);
             do{
@@ -75,6 +79,10 @@ public class Estacionamiento {
                     System.out.println("Formato incorrecto");
                 }
             }while(patenteisValid);
+            /*
+            * Marca
+            * Selección mediante menu
+            */
             do{
                 Scanner scanner1 = new Scanner(System.in);
                 System.out.println(
@@ -93,29 +101,28 @@ public class Estacionamiento {
                 char opcion = marca.charAt(0);
 
                 switch (opcion) {
-                    case 'C':
-                        System.out.println("Vehiculo Chevrolet");
+                    case '1':
+                        System.out.println("Color Rojo");
                         // Realiza las operaciones correspondientes para la opción 1
-                        marcaisValid=true;
+
                         break;
-                    case 'N':
-                        System.out.println("Vehiculo Nissan");
+                    case '2':
+                        System.out.println("Color Azul");
                         // Realiza las operaciones correspondientes para la opción 2
-                        marcaisValid=true;
+
                         break;
-                    case 'H':
-                        System.out.println("Vehiculo Hyundai");
+                    case '3':
+                        System.out.println("Color Verde");
                         // Realiza las operaciones correspondientes para la opción 3
-                        marcaisValid=true;
+
                         break;
-                    case 'F':
-                        System.out.println("Vehiculo Ford");
+                    case '4':
+                        System.out.println("Color Negro");
                         // Realiza las operaciones correspondientes para la opción 3
-                        marcaisValid=true;
+
                         break;
                     default:
                         System.out.println("Opción inválida");
-                        marcaisValid=false;
                         break;
                 }
             } 
@@ -123,7 +130,10 @@ public class Estacionamiento {
                 System.out.println("No se ingresó ninguna opción");
             }
             }while(marcaisValid);
-            
+            /*
+            * Color
+            * Debe tener formato "AAAA00"
+            */
             do{
                color=JOptionPane.showInputDialog(null, "Ingrese el Color del vehiculo: \n"
                        + "R: Rojo \n"
