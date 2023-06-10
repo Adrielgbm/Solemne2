@@ -35,6 +35,13 @@ public class Estacionamiento {
         this.parkedCars = parkedCars;
     }
 
+    
+    public Estacionamiento(int parkedCars, Stack cars) {
+        this.maximumCapacity = 8;
+        this.parkedCars = parkedCars;
+        this.cars = cars;
+    }
+
     @Override
     public String toString() {
         return "Estacionamiento [maximumCapacity=" + maximumCapacity + ", parkedCars=" + parkedCars + ", cars=" + cars
