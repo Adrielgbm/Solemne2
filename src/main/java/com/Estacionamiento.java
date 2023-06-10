@@ -39,7 +39,7 @@ public class Estacionamiento {
     public Estacionamiento(int parkedCars, Stack cars) {
         this.maximumCapacity = 8;
         this.parkedCars = parkedCars;
-        this.cars = cars;
+        this.cars = new Stack<>();
     }
 
     @Override
