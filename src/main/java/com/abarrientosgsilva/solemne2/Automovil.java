@@ -48,5 +48,8 @@ public class Automovil {
         this.color = color;
     }
 
-    
+    @Override
+    public String toString() {
+        return "Automovil [patente=" + patente + ", marca=" + marca + ", modelo=" + modelo + ", color=" + color + "]";
+    }
 }
