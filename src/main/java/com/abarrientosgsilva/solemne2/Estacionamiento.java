@@ -8,7 +8,7 @@ import java.util.Stack;
 public class Estacionamiento {
     private int maximumCapacity;
     private int parkedCars;
-    private Stack cars;
+    private Stack<Automovil> cars;
 
     public Estacionamiento(int parkedCars) {
         cars = new Stack<>();
@@ -37,13 +37,6 @@ public class Estacionamiento {
     public void setParkedCars(int parkedCars) {
         this.parkedCars = parkedCars;
     }
-
-    
-    public Estacionamiento(int parkedCars, Stack cars) {
-        this.maximumCapacity = 8;
-        this.parkedCars = parkedCars;
-        this.cars = new Stack<>();
-    }
     
     @Override
     public String toString() {
@@ -52,10 +45,81 @@ public class Estacionamiento {
     }
 
     public void addCar() throws IOException {
-        String patente, modelo, color = "Rojo", info;
-        int num;
-        char marca = 'C';
-        boolean check = false;
+        if(parkedCars < maximumCapacity) {
+            String patente, modelo, color = "Rojo", info;
+            int num;
+            char marca = 'C';
+            boolean check = false;
+            String regex = "^[CNHMF]$";
+            BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
+            patente = validatePatent();
+
+            do {
+                System.out.print("\nMarcas:");
+                System.out.print("C -> Chevrolet");
+                System.out.print("N -> Nissan");
+                System.out.print("H -> Hyundai");
+                System.out.print("M -> Mercedes Benz");
+                System.out.print("F -> Ford");
+                System.out.print("\nIngrese la marca del vehículo: ");
+                info = br.readLine().toUpperCase();
+                if(info.matches(regex)) {
+                    marca = info.charAt(0);
+                    check = true;
+                }
+                else
+                    System.out.println("Debe ingresar la letra correspondiente a una de las siguientes marcas.");
+            } while(!check);
+
+            System.out.print("Ingrese el modelo del vehículo: ");
+            modelo = br.readLine();
+
+            check = false;
+
+            do {
+                System.out.print("\nColores:");
+                System.out.print("1. Rojo");
+                System.out.print("2. Azul");
+                System.out.print("3. Verde");
+                System.out.print("4. Negro");
+                System.out.print("\nIngrese el color del vehículo: ");
+                num = Integer.parseInt(br.readLine());
+                switch (num) {
+                        case 1:
+                            color = "Rojo";
+                            check = true;
+                            break;
+
+                        case 2:
+                            color = "Azul";
+                            check = true;
+                            break;
+
+                        case 3:
+                            color = "Verde";
+                            check = true;
+                            break;
+
+                        case 4:
+                            color = "Negro";
+                            check = true;
+                            break;
+
+                        default:
+                            System.out.println("Debe ingresar el número correspondiente a uno de los siguientes colores.");
+                            break;
+                    }
+            } while(!check);
+            cars.push(new Automovil(patente, marca, modelo, color));
+            parkedCars++;
+            System.out.print("\nEl vehículo se ha estacionado correctamente.");
+        } else
+            System.out.print("\nNo hay espacio en el estacionamiento.");
+    }
+
+    public String validatePatent() throws IOException {
+        String patente;
+        Boolean check = false;
         String regex = "^[A-Z]{4}[0-9]{2}$|^[0-9]{4}[A-Z]{2}$";
         BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
         do {
@@ -66,67 +130,35 @@ public class Estacionamiento {
             else
                 System.out.println("La patente debe tener formato AAAA99 o 9999AA.");
         } while(!check);
+        return patente;
+    }
 
-        check = false;
-        regex = "^[CNHMF]$";
+    public void addCar(Automovil auto) {
+        if(parkedCars < maximumCapacity) {
+            cars.push(auto);
+            parkedCars++;
+        }
+    }
 
-        do {
-            System.out.print("\nMarcas:");
-            System.out.print("C -> Chevrolet");
-            System.out.print("N -> Nissan");
-            System.out.print("H -> Hyundai");
-            System.out.print("M -> Mercedes Benz");
-            System.out.print("F -> Ford");
-            System.out.print("\nIngrese la marca del vehículo: ");
-            info = br.readLine().toUpperCase();
-            if(info.matches(regex)) {
-                marca = info.charAt(0);
-                check = true;
+    public Automovil takeOutCar() {
+        if(parkedCars > 0) {
+            parkedCars--;
+            return cars.pop();
+        }
+        else
+            return null;
+    }
+
+    public void searchCar() throws IOException {
+        String patent = validatePatent();
+        Automovil car;
+        for(int i = 0; i < parkedCars; i++) {
+            car = takeOutCar();
+            if(patent.equals(car.getPatente())) {
+                car.showInfo();
             }
             else
-                System.out.println("Debe ingresar la letra correspondiente a una de las siguientes marcas.");
-        } while(!check);
-
-        System.out.print("Ingrese el modelo del vehículo: ");
-        modelo = br.readLine();
-
-        check = false;
-
-        do {
-            System.out.print("\nColores:");
-            System.out.print("1. Rojo");
-            System.out.print("2. Azul");
-            System.out.print("3. Verde");
-            System.out.print("4. Negro");
-            System.out.print("\nIngrese el color del vehículo: ");
-            num = Integer.parseInt(br.readLine());
-            switch (num) {
-                    case 1:
-                        color = "Rojo";
-                        check = true;
-                        break;
-
-                    case 2:
-                        color = "Azul";
-                        check = true;
-                        break;
-
-                    case 3:
-                        color = "Verde";
-                        check = true;
-                        break;
-
-                    case 4:
-                        color = "Negro";
-                        check = true;
-                        break;
-
-                    default:
-                        System.out.println("Debe ingresar el número correspondiente a uno de los siguientes colores.");
-                        break;
-                }
-        } while(!check);
-        cars.push(new Automovil(patente, marca, modelo, color));
-        System.out.print("\nEl vehículo se ha estacionado correctamente.");
+                System.out.println("No hay ningún auto con esta patente.");
+        }
     }
 }

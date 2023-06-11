@@ -52,4 +52,13 @@ public class Automovil {
     public String toString() {
         return "Automovil [patente=" + patente + ", marca=" + marca + ", modelo=" + modelo + ", color=" + color + "]";
     }
+
+    public String showInfo() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nPatente: ").append(patente);
+        sb.append("\nMarca: ").append(marca);
+        sb.append("\nModelo: ").append(modelo);
+        sb.append("\nColor: ").append(color);
+        return sb.toString();
+    }
 }
