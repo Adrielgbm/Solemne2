@@ -1,11 +1,9 @@
-package com;
+package com.abarrientosgsilva.solemne2;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Stack;
-
-import com.abarrientosgsilva.solemne2.Automovil;
 
 public class Estacionamiento {
     private int maximumCapacity;
