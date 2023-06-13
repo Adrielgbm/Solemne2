@@ -12,11 +12,12 @@ import java.util.Scanner;
 
 
 public class Menu {
-
     public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
     int opcion;
-    System.out.println("""
+
+    Estacionamiento est = new Estacionamiento();
+    System.out.print("""
                   **************************************************
                   *            M E N U: Estacionamiento            *
                   *                S O L E M N E 2                 *
@@ -24,8 +25,8 @@ public class Menu {
                   **************************************************
                   *                                                *
                   *   1. Agregar Vehiculo                          *
-                  *   2. Quitar Vehiculo                           *
-                  *   3. Buscar vehiculo(Patente)                  *
+                  *   2. Sacar Vehiculo (Patente)                  *
+                  *   3. Buscar vehiculo (Patente)                 *
                   *   4. Informacion Estacionamiento               *
                   *   5. Salir                                     *
                   *                                                *
@@ -36,23 +37,34 @@ public class Menu {
         try{      
             opcion = Integer.parseInt(scanner.nextLine());
             switch (opcion) {
-                case 1 -> System.out.println("Insertar vehiculo");
-//                        e.insertarVehiculo();
-                case 2 -> System.out.println("Eliminar vehiculo");
-//                        e.eliminarVehiculo();
-                case 3 -> System.out.println("Buscar vehiculo por patente");
-//                        e.buscarVehiculoPorPatente();
-                case 4 -> System.out.println("Información estacionamiento");
-//                        e.mostrarVehiculos();
-                case 5 -> System.out.println("error");
-                default -> System.out.println("Invalid Option");
-            }// fin switch  
+                case 1:
+                    est.addCar();
+                    break;
+                    
+                case 2:
+                    String patent = est.validatePatent();
+                    est.takeOutCar(patent);
+                    break;
+                    
+                case 3:
+                    est.searchCar();
+                    break;
+
+                case 4:
+                    est.information();
+                    break;
+
+                default:
+                    System.out.println("Opción inválida.");
+                    break;
+            
+            }
         }
-        catch(Exception ex){
-            System.out.println("Invalid Option");
-            opcion=0;
+        catch(Exception ex) {
+            System.out.println("Error (" + ex + ")");
+            opcion = 0;
         }
         
-    }while(opcion!= 5);
+    }while(opcion != 5);
     }
 }

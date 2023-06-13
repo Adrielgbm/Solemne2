@@ -10,7 +10,7 @@ public class Estacionamiento {
     private int parkedCars;
     private Stack<Automovil> cars;
 
-    public Estacionamiento(int parkedCars) {
+    public Estacionamiento() {
         cars = new Stack<>();
     }
 
@@ -152,13 +152,67 @@ public class Estacionamiento {
     public void searchCar() throws IOException {
         String patent = validatePatent();
         Automovil car;
+        Stack<Automovil> aux = new Stack();
+        int auxiliaryParking = 0;
+
         for(int i = 0; i < parkedCars; i++) {
             car = takeOutCar();
+            auxiliaryParking++;
+            aux.push(car);
             if(patent.equals(car.getPatente())) {
                 car.showInfo();
+                break;
             }
             else
-                System.out.println("No hay ningún auto con esta patente.");
+                System.out.println("No hay ningún auto con esa patente.");
         }
+        while(auxiliaryParking > 0) {
+            addCar(aux.pop());
+        }
+    }
+
+    public void takeOutCar(String patent) {
+        Automovil car;
+        Stack<Automovil> aux = new Stack();
+        int auxiliaryParking = 0;
+
+        for(int i = 0; i < parkedCars; i++) {
+            car = takeOutCar();
+            
+            if(patent.equals(car.getPatente())) {
+                break;
+            }
+            else
+                auxiliaryParking++;
+                aux.push(car);
+        }
+        if(parkedCars == auxiliaryParking) {
+            System.out.println("No hay ningún auto con esa patente.");
+        }
+        while(auxiliaryParking > 0) {
+            addCar(aux.pop());
+        }
+    }
+
+    public void information() {
+        Automovil car;
+        Stack<Automovil> aux = new Stack();
+        int auxiliaryParking = 0;
+
+        if(parkedCars != 0) {
+            for(int i = 0; i < parkedCars; i++) {
+                car = takeOutCar();
+                auxiliaryParking++;
+                aux.push(car);
+                car.showInfo();
+                System.out.println("");
+            }
+            while(auxiliaryParking > 0) {
+                addCar(aux.pop());
+            }
+        } else {
+            System.out.println("No hay vehículos estacionados.");
+        }
+        
     }
 }
