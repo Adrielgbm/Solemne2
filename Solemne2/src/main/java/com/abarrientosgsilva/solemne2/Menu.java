@@ -1,14 +1,17 @@
 package com.abarrientosgsilva.solemne2;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
     Scanner scanner = new Scanner(System.in);
     int opcion;
 
     Estacionamiento est = new Estacionamiento();
-    System.out.print("""
+    do{
+        System.out.print("""
+                         
                   **************************************************
                   *            M E N U: Estacionamiento            *
                   *                S O L E M N E 2                 *
@@ -22,40 +25,35 @@ public class Menu {
                   *   5. Salir                                     *
                   *                                                *
                   **************************************************
-                  Ingrese una opcion: """);
-    
-    do{
-        try{      
-            opcion = Integer.parseInt(scanner.nextLine());
-            switch (opcion) {
-                case 1:
-                    est.addCar();
-                    break;
-                    
-                case 2:
-                    String patent = est.validatePatent();
-                    est.takeOutCar(patent);
-                    break;
-                    
-                case 3:
-                    est.searchCar();
-                    break;
+                  """);
+        System.out.print("Ingrese una opcion: ");
+        opcion = Integer.parseInt(scanner.nextLine());
+        switch (opcion) {
+            case 1:
+                est.addCar();
+                break;
 
-                case 4:
-                    est.information();
-                    break;
+            case 2:
+                String patent = est.validatePatent();
+                est.takeOutCar(patent);
+                break;
 
-                default:
-                    System.out.println("Opción inválida.");
-                    break;
-            
-            }
+            case 3:
+                est.searchCar();
+                break;
+
+            case 4:
+                est.information();
+                break;
+                
+            case 5:
+                break;
+
+            default:
+                System.out.println("Opción inválida.");
+                break;
+
         }
-        catch(Exception ex) {
-            System.out.println("Error (" + ex + ")");
-            opcion = 0;
-        }
-        
     }while(opcion != 5);
     }
 }

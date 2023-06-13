@@ -13,6 +13,7 @@ public class Estacionamiento {
     public Estacionamiento() {
         cars = new Stack<>();
         parkedCars = 0;
+        maximumCapacity = 8;
     }
 
     public int getmaximumCapacity() {
@@ -20,7 +21,7 @@ public class Estacionamiento {
     }
 
     public void setmaximumCapacity(int maximumCapacity) {
-        this.maximumCapacity = 8;
+        this.maximumCapacity = maximumCapacity;
     }
 
     public Stack getCars() {
@@ -56,12 +57,12 @@ public class Estacionamiento {
             patente = validatePatent();
 
             do {
-                System.out.print("\nMarcas:");
-                System.out.print("C -> Chevrolet");
-                System.out.print("N -> Nissan");
-                System.out.print("H -> Hyundai");
-                System.out.print("M -> Mercedes Benz");
-                System.out.print("F -> Ford");
+                System.out.println("\nMarcas:");
+                System.out.println("C -> Chevrolet");
+                System.out.println("N -> Nissan");
+                System.out.println("H -> Hyundai");
+                System.out.println("M -> Mercedes Benz");
+                System.out.println("F -> Ford");
                 System.out.print("\nIngrese la marca del vehículo: ");
                 info = br.readLine().toUpperCase();
                 if(info.matches(regex)) {
@@ -78,12 +79,12 @@ public class Estacionamiento {
             check = false;
 
             do {
-                System.out.print("\nColores:");
-                System.out.print("1. Rojo");
-                System.out.print("2. Azul");
-                System.out.print("3. Verde");
-                System.out.print("4. Negro");
-                System.out.print("\nIngrese el color del vehículo: ");
+                System.out.println("\nColores:");
+                System.out.println("1. Rojo");
+                System.out.println("2. Azul");
+                System.out.println("3. Verde");
+                System.out.println("4. Negro");
+                System.out.println("\nIngrese el color del vehículo: ");
                 num = Integer.parseInt(br.readLine());
                 switch (num) {
                         case 1:
@@ -113,9 +114,9 @@ public class Estacionamiento {
             } while(!check);
             cars.push(new Automovil(patente, marca, modelo, color));
             parkedCars++;
-            System.out.print("\nEl vehículo se ha estacionado correctamente.");
+            System.out.println("\nEl vehículo se ha estacionado correctamente.");
         } else
-            System.out.print("\nNo hay espacio en el estacionamiento.");
+            System.out.println("\nNo hay espacio en el estacionamiento.");
     }
 
     public String validatePatent() throws IOException {
@@ -125,7 +126,7 @@ public class Estacionamiento {
         BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
         do {
             System.out.print("Ingrese la patente del vehículo: ");
-            patente = br.readLine();
+            patente = br.readLine().toUpperCase();
             if(patente.matches(regex))
                 check = true;
             else
@@ -146,69 +147,82 @@ public class Estacionamiento {
             parkedCars--;
             return cars.pop();
         }
-        else
+        else {
+            System.out.println("No hay vehículos estacionados.");
             return null;
+        }
     }
 
     public void searchCar() throws IOException {
-        String patent = validatePatent();
-        Automovil car;
-        Stack<Automovil> aux = new Stack();
-        int auxiliaryParking = 0;
+        if(parkedCars > 0) {
+            String patent = validatePatent();
+            Automovil car;
+            Stack<Automovil> aux = new Stack();
+            boolean found = false;
 
-        for(int i = 0; i < parkedCars; i++) {
-            car = takeOutCar();
-            auxiliaryParking++;
-            aux.push(car);
-            if(patent.equals(car.getPatente())) {
-                car.showInfo();
-                break;
+            for(int i = 0; i < parkedCars; i++) {
+                car = takeOutCar();
+                aux.push(car);
+                if(patent.equals(car.getPatente())) {
+                    System.out.println(car.showInfo());
+                    found = true;
+                    break;
+                }
             }
-            else
-                System.out.println("No hay ningún auto con esa patente.");
-        }
-        while(auxiliaryParking > 0) {
-            addCar(aux.pop());
+            while(!aux.isEmpty()) {
+                addCar(aux.pop());
+            }
+            
+            if (!found) {
+            System.out.println("No hay ningún auto con esa patente.");
+            }
+        } else {
+        System.out.println("No hay vehículos estacionados.");
         }
     }
 
     public void takeOutCar(String patent) {
-        Automovil car;
-        Stack<Automovil> aux = new Stack();
-        int auxiliaryParking = 0;
+        if(parkedCars > 0) {
+            Automovil car;
+            Stack<Automovil> aux = new Stack();
+            boolean found = false;
 
-        for(int i = 0; i < parkedCars; i++) {
-            car = takeOutCar();
-            
-            if(patent.equals(car.getPatente())) {
-                break;
+            for(int i = 0; i < parkedCars; i++) {
+                car = takeOutCar();
+
+                if(patent.equals(car.getPatente())) {
+                    found = true;
+                    System.out.println("Vehículo retirado con éxito.");
+                    break;
+                } else {
+                    aux.push(car);
+                }
             }
-            else
-                auxiliaryParking++;
-                aux.push(car);
-        }
-        if(parkedCars == auxiliaryParking) {
-            System.out.println("No hay ningún auto con esa patente.");
-        }
-        while(auxiliaryParking > 0) {
-            addCar(aux.pop());
+            while(!aux.isEmpty()) {
+                addCar(aux.pop());
+            }
+            
+            if(!found) {
+                System.out.println("No hay ningún auto con esa patente.");
+            }
+        } else {
+        System.out.println("No hay vehículos estacionados.");
         }
     }
 
     public void information() {
-        Automovil car;
-        Stack<Automovil> aux = new Stack();
-        int auxiliaryParking = 0;
+        if(parkedCars > 0) {
+            Automovil car;
+            Stack<Automovil> aux = new Stack();
 
-        if(parkedCars != 0) {
-            for(int i = 0; i < parkedCars; i++) {
+            while (!cars.isEmpty()) {
                 car = takeOutCar();
-                auxiliaryParking++;
-                aux.push(car);
-                car.showInfo();
+                System.out.println(car.showInfo());
                 System.out.println("");
+                aux.push(car);
             }
-            while(auxiliaryParking > 0) {
+
+            while (!aux.isEmpty()) {
                 addCar(aux.pop());
             }
         } else {

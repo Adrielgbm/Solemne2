@@ -9,11 +9,11 @@ public class Automovil {
     public Automovil() {
     }
 
-    public Automovil(String color, char marca, String modelo, String patente) {
-        this.color = color;
+    public Automovil(String patente, char marca, String modelo, String color) {
+        this.patente = patente;
         this.marca = marca;
         this.modelo = modelo;
-        this.patente = patente;
+        this.color = color;
     }
 
     public String getPatente() {
